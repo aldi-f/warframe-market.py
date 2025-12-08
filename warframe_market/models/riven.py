@@ -1,8 +1,8 @@
-import msgspec
 from typing import Literal
 
-from ..common.options import LanguageCode
+import msgspec
 
+from ..common.options import LanguageCode
 
 RivenType = Literal["rifle", "shotgun", "pistol", "melee", "kitgun", "zaw"]
 
@@ -10,7 +10,7 @@ RivenType = Literal["rifle", "shotgun", "pistol", "melee", "kitgun", "zaw"]
 class RivenI18N(msgspec.Struct):
     """Localization data for a Riven mod."""
 
-    name: str = msgspec.field(name="itemName")
+    name: str
     icon: str
     thumb: str
     wiki_link: str | None = msgspec.field(default=None, name="wikiLink")
