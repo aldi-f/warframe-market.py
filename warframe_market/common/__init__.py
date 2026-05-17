@@ -16,3 +16,13 @@ from .base import (
 from .options import (
     LanguageCode,
 )
+
+from ..exceptions import (
+    WFMApiError,
+    WFMRateLimitError,
+    WFMTooManyConnectionsError,
+    WFMValidationError,
+    WFMAuthError,
+    WFMNotFoundError,
+    WFMServerError,
+)

@@ -41,6 +41,7 @@ class OrderModel(msgspec.Struct):
     subtype: Optional[str] = None
     amber_stars: Optional[int] = msgspec.field(default=None, name="amberStars")
     cyan_stars: Optional[int] = msgspec.field(default=None, name="cyanStars")
+    vosfor: Optional[int] = None
 
 class OrderWithUserModel(OrderModel, kw_only=True):
     """

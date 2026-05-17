@@ -6,7 +6,7 @@ from ..common.options import LanguageCode
 class LichWeaponI18NModel(msgspec.Struct):
     """Localization data for a Lich weapon."""
 
-    name: str = msgspec.field(name="itemName")  # Changed to match Go struct's json tag
+    name: str
     icon: str
     thumb: str
     wiki_link: str | None = msgspec.field(default=None, name="wikiLink")
@@ -26,7 +26,7 @@ class LichWeaponModel(msgspec.Struct):
 class LichEphemeraI18NModel(msgspec.Struct):
     """Localization data for a Lich ephemera."""
 
-    name: str = msgspec.field(name="itemName")
+    name: str
     icon: str
     thumb: str
 
@@ -48,7 +48,7 @@ class LichEphemeraModel(msgspec.Struct):
 class LichQuirkI18NModel(msgspec.Struct):
     """Localization data for a Lich quirk."""
 
-    name: str = msgspec.field(name="itemName")
+    name: str
     description: str | None = None
     icon: str | None = None
     thumb: str | None = None

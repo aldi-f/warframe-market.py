@@ -6,9 +6,12 @@ from enum import Enum
 class ActivityType(str, Enum):
     """Types of activities a user can be engaged in."""
 
-    ON_MISSION = "ON_MISSION"
-    DOJO = "DOJO"
-    UNKNOWN = "UNKNOWN"
+    UNKNOWN = "unknown"
+    IDLE = "idle"
+    ON_MISSION = "on_mission"
+    IN_DOJO = "in_dojo"
+    IN_ORBITER = "in_orbiter"
+    IN_RELAY = "in_relay"
     EMPTY = ""
 
 

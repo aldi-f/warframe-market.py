@@ -6,7 +6,7 @@ from ..common.options import LanguageCode
 class SisterWeaponI18NModel(msgspec.Struct):
     """Localization data for a Sister weapon."""
 
-    name: str = msgspec.field(name="itemName")
+    name: str
     icon: str
     thumb: str
     wiki_link: str | None = msgspec.field(default=None, name="wikiLink")
@@ -27,7 +27,7 @@ class SisterWeaponModel(msgspec.Struct):
 class SisterEphemeraI18NModel(msgspec.Struct):
     """Localization data for a Sister ephemera."""
 
-    name: str = msgspec.field(name="itemName")
+    name: str
     icon: str
     thumb: str
 
@@ -48,9 +48,9 @@ class SisterEphemeraModel(msgspec.Struct):
 class SisterQuirkI18NModel(msgspec.Struct):
     """Localization data for a Sister quirk."""
 
-    name: str = msgspec.field(name="itemName")
-    icon: str
-    thumb: str
+    name: str
+    icon: str | None = None
+    thumb: str | None = None
     description: str | None = None
 
 
