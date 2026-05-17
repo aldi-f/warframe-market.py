@@ -40,3 +40,21 @@ class ItemSet(BaseRequest):
     __slug__ = True
 
     data: _ItemSetData
+
+
+class ItemById(BaseRequest):
+    """Get full info about one, particular item by ID."""
+
+    __endpoint__ = "/itemId/{slug}"
+    __slug__ = True
+
+    data: ItemModel
+
+
+class ItemSetById(BaseRequest):
+    """Retrieve Information on Item Sets by item ID."""
+
+    __endpoint__ = "/itemId/{slug}/set"
+    __slug__ = True
+
+    data: _ItemSetData

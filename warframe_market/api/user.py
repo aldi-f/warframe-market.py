@@ -5,10 +5,19 @@ from ..models.user import UserModel
 
 
 class User(BaseRequest):
-    """Getting information about particular user
+    """Getting information about particular user by slug/username.
 
-    Requires user ID (same as slug)
+    Requires user slug (username).
     """
+
+    __endpoint__ = "/user/{slug}"
+    __slug__ = True
+
+    data: UserModel
+
+
+class UserById(BaseRequest):
+    """Getting information about particular user by user ID."""
 
     __endpoint__ = "/userId/{slug}"
     __slug__ = True

@@ -94,3 +94,41 @@ class OrderId(BaseRequest):
     __slug__ = True
 
     data: OrderWithUserModel
+
+
+class OrdersItemById(BaseRequest):
+    """Get all orders for an item by item ID."""
+
+    __endpoint__ = "/orders/itemId/{slug}"
+    __slug__ = True
+
+    data: List[OrderWithUserModel]
+
+
+class OrdersItemTopById(BaseRequest):
+    """Get top orders for an item by item ID."""
+
+    __endpoint__ = "/orders/itemId/{slug}/top"
+    __params__ = [
+        "rank",
+        "rankLt",
+        "charges",
+        "chargesLt",
+        "amberStars",
+        "amberStarsLt",
+        "cyanStars",
+        "cyanStarsLt",
+        "subtype",
+    ]
+    __slug__ = True
+
+    data: _OrdersItemData
+
+
+class OrdersUserById(BaseRequest):
+    """Get public orders from a user by user ID."""
+
+    __endpoint__ = "/orders/userId/{slug}"
+    __slug__ = True
+
+    data: List[OrderModel]
