@@ -14,6 +14,14 @@ class ActivityType(str, Enum):
     IN_RELAY = "in_relay"
     EMPTY = ""
 
+    @classmethod
+    def _missing_(cls, value):
+        if isinstance(value, str):
+            for member in cls:
+                if member.value == value.lower():
+                    return member
+        return cls.UNKNOWN
+
 
 class ActivityModel(msgspec.Struct):
     """
