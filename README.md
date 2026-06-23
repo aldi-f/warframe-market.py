@@ -38,6 +38,24 @@ if __name__ == "__main__":
     loop.close()
 ```
 
+### Get static image URLs for items
+
+```python
+from warframe_market.client import WarframeMarketClient
+from warframe_market.utils import get_static_asset_url
+
+async with WarframeMarketClient() as client:
+    # Using client convenience methods (fetches item, returns full URL)
+    icon_url = await client.get_item_icon_url("nova_prime_set")
+    thumb_url = await client.get_item_thumb_url("nova_prime_set")
+    print(icon_url)   # https://warframe.market/static/assets/...
+    print(thumb_url)  # https://warframe.market/static/assets/...
+
+    # Using the utility function directly (when you already have a filename)
+    icon_url = get_static_asset_url("nova_prime_set.png")
+    print(icon_url)
+```
+
 ## Advanced Usage
 
 ### Other languages or platforms

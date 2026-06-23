@@ -63,6 +63,8 @@ class TestClientHasMethods:
             "get_item_set",
             "get_item_by_id",
             "get_item_set_by_id",
+            "get_item_icon_url",
+            "get_item_thumb_url",
             "get_orders_for_item",
             "get_top_orders_for_item",
             "get_orders_from_user",

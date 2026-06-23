@@ -113,3 +113,17 @@ async def test_other_http_error(client):
         with pytest.raises(WFMApiError) as exc_info:
             await client.get_item("test")
         assert exc_info.value.status == 418
+
+
+@pytest.mark.asyncio
+async def test_get_item_icon_url(client):
+    with patch("aiohttp.ClientSession.get", _mock_get(200, MOCK_ITEM_DATA)):
+        icon_url = await client.get_item_icon_url("item_one")
+    assert icon_url == "https://warframe.market/static/assets/x.png"
+
+
+@pytest.mark.asyncio
+async def test_get_item_thumb_url(client):
+    with patch("aiohttp.ClientSession.get", _mock_get(200, MOCK_ITEM_DATA)):
+        thumb_url = await client.get_item_thumb_url("item_one")
+    assert thumb_url == "https://warframe.market/static/assets/y.png"

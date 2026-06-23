@@ -3,6 +3,7 @@ from typing import TypeVar, Type, Optional
 
 from .common import *
 from .api import *
+from .utils import get_static_asset_url
 from .exceptions import (
     WFMApiError,
     WFMRateLimitError,
@@ -82,6 +83,14 @@ class WarframeMarketClient:
 
     async def get_item_set_by_id(self, item_id: str) -> ItemSet:
         return await self.get(ItemSetById, slug=item_id)
+
+    async def get_item_icon_url(self, slug: str) -> str:
+        item = await self.get_item(slug)
+        return get_static_asset_url(item.data.i18n[self.language.value].icon)
+
+    async def get_item_thumb_url(self, slug: str) -> str:
+        item = await self.get_item(slug)
+        return get_static_asset_url(item.data.i18n[self.language.value].thumb)
 
     ####################
     ## ORDER APIs
