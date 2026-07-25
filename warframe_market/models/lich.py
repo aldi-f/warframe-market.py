@@ -9,7 +9,7 @@ class LichWeaponI18NModel(msgspec.Struct):
     name: str
     icon: str
     thumb: str
-    wiki_link: str | None = msgspec.field(default=None, name="wikiLink")
+    wiki_link: str = msgspec.field(name="wikiLink")
 
 
 class LichWeaponModel(msgspec.Struct):
@@ -49,9 +49,9 @@ class LichQuirkI18NModel(msgspec.Struct):
     """Localization data for a Lich quirk."""
 
     name: str
-    description: str | None = None
-    icon: str | None = None
-    thumb: str | None = None
+    description: str
+    icon: str
+    thumb: str
 
 
 class LichQuirkModel(msgspec.Struct):

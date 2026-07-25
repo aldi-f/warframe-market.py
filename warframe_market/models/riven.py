@@ -13,13 +13,14 @@ class RivenI18N(msgspec.Struct):
     name: str
     icon: str
     thumb: str
+    sub_icon: str = msgspec.field(name="subIcon")
     wiki_link: str | None = msgspec.field(default=None, name="wikiLink")
 
 
 class RivenAttributeI18N(msgspec.Struct):
     """Localization data for a Riven attribute."""
 
-    name: str = msgspec.field(name="effect")
+    name: str
     icon: str
     thumb: str
 

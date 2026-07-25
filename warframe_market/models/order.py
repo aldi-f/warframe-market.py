@@ -34,7 +34,7 @@ class OrderModel(msgspec.Struct):
     created_at: str = msgspec.field(name="createdAt")
     updated_at: str = msgspec.field(name="updatedAt")
     item_id: str = msgspec.field(name="itemId")
-    group: Optional[str] = None
+    group_id: Optional[str] = msgspec.field(default=None, name="groupId")
     per_trade: Optional[int] = msgspec.field(default=None, name="perTrade")
     rank: Optional[int] = None
     charges: Optional[int] = None

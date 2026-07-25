@@ -28,7 +28,7 @@ from warframe_market.models.user_private import UserPrivateModel, Role, Tier
 class TestActivityModel:
     def test_activity_type_values(self):
         assert ActivityType.ON_MISSION.value == "on_mission"
-        assert ActivityType.IN_DOJO.value == "in_dojo"
+        assert ActivityType.IN_DOJO.value == "dojo"
         assert ActivityType.UNKNOWN.value == "unknown"
         assert ActivityType.IDLE.value == "idle"
         assert ActivityType.IN_ORBITER.value == "in_orbiter"
@@ -36,9 +36,9 @@ class TestActivityModel:
         assert ActivityType.EMPTY.value == ""
 
     def test_activity_deserialization(self):
-        data = '{"type": "on_mission", "details": "The Circuit 55-75", "startedAt": "2024-01-17T22:18:19Z"}'
+        data = '{"type": "dojo", "details": "The Circuit 55-75", "startedAt": "2024-01-17T22:18:19Z"}'
         act = msgspec.json.decode(data, type=ActivityModel)
-        assert act.type == ActivityType.ON_MISSION
+        assert act.type == ActivityType.IN_DOJO
         assert act.details == "The Circuit 55-75"
 
     def test_activity_empty_type(self):
@@ -127,7 +127,7 @@ class TestOrderModel:
             "createdAt": "2016-12-05T17:34:17Z",
             "updatedAt": "2021-05-21T14:59:02Z",
             "itemId": "item1",
-            "group": "all"
+            "groupId": "all"
         }'''
         order = msgspec.json.decode(data, type=OrderModel)
         assert order.type == "sell"
@@ -140,7 +140,7 @@ class TestOrderModel:
         assert order.cyan_stars == 10
         assert order.vosfor == 400
         assert order.visible is True
-        assert order.group == "all"
+        assert order.group_id == "all"
         assert order.item_id == "item1"
 
     def test_order_minimal_deserialization(self):
@@ -169,7 +169,7 @@ class TestOrderWithUserModel:
             "updatedAt": "2021-01-01T00:00:00Z",
             "itemId": "i1",
             "user": {
-                "id": "uid1", "ingameName": "Player1",
+                "id": "uid1", "slug": "player1", "ingameName": "Player1",
                 "reputation": 0, "locale": "en",
                 "platform": "pc", "crossplay": true,
                 "status": "in_game",
@@ -187,12 +187,12 @@ class TestOrderWithUserModel:
 
 class TestLichModels:
     def test_lich_weapon_i18n_name(self):
-        data = '{"name": "Kuva Drakgoon", "icon": "x.png", "thumb": "y.png"}'
+        data = '{"name": "Kuva Drakgoon", "icon": "x.png", "thumb": "y.png", "wikiLink": "https://wiki"}'
         obj = msgspec.json.decode(data, type=LichWeaponI18NModel)
         assert obj.name == "Kuva Drakgoon"
 
     def test_lich_weapon_deserialization(self):
-        data = '''{"id":"w1","slug":"kuva_drakgoon","gameRef":"/Lotus/W","reqMasteryRank":13,"i18n":{"en":{"name":"Kuva Drakgoon","icon":"x.png","thumb":"y.png"}}}'''
+        data = '''{"id":"w1","slug":"kuva_drakgoon","gameRef":"/Lotus/W","reqMasteryRank":13,"i18n":{"en":{"name":"Kuva Drakgoon","icon":"x.png","thumb":"y.png","wikiLink":"https://wiki"}}}'''
         obj = msgspec.json.decode(data, type=LichWeaponModel)
         assert obj.slug == "kuva_drakgoon"
         assert obj.req_mastery_rank == 13
@@ -210,13 +210,13 @@ class TestLichModels:
         assert obj.element == "electricity"
 
     def test_lich_quirk_i18n_name(self):
-        data = '{"name": "Poor Sense of Balance", "description": "The lich will retreat"}'
+        data = '{"name": "Poor Sense of Balance", "description": "The lich will retreat", "icon": "x.png", "thumb": "y.png"}'
         obj = msgspec.json.decode(data, type=LichQuirkI18NModel)
         assert obj.name == "Poor Sense of Balance"
         assert obj.description == "The lich will retreat"
 
     def test_lich_quirk(self):
-        data = '''{"id":"q1","slug":"poor_sense_of_balance","group":"default","i18n":{"en":{"name":"Poor Sense of Balance","description":"The lich will retreat"}}}'''
+        data = '''{"id":"q1","slug":"poor_sense_of_balance","group":"default","i18n":{"en":{"name":"Poor Sense of Balance","description":"The lich will retreat","icon":"x.png","thumb":"y.png"}}}'''
         obj = msgspec.json.decode(data, type=LichQuirkModel)
         assert obj.group == "default"
 
@@ -225,12 +225,12 @@ class TestLichModels:
 
 class TestSisterModels:
     def test_sister_weapon_i18n_name(self):
-        data = '{"name": "Tenet Tetra", "icon": "x.png", "thumb": "y.png"}'
+        data = '{"name": "Tenet Tetra", "icon": "x.png", "thumb": "y.png", "wikiLink": "https://wiki"}'
         obj = msgspec.json.decode(data, type=SisterWeaponI18NModel)
         assert obj.name == "Tenet Tetra"
 
     def test_sister_weapon(self):
-        data = '''{"id":"w1","slug":"tenet_tetra","gameRef":"/Lotus/Weapons/...","reqMasteryRank":16,"i18n":{"en":{"name":"Tenet Tetra","icon":"x.png","thumb":"y.png"}}}'''
+        data = '''{"id":"w1","slug":"tenet_tetra","gameRef":"/Lotus/Weapons/...","reqMasteryRank":16,"i18n":{"en":{"name":"Tenet Tetra","icon":"x.png","thumb":"y.png","wikiLink":"https://wiki"}}}'''
         obj = msgspec.json.decode(data, type=SisterWeaponModel)
         assert obj.req_mastery_rank == 16
 
@@ -240,7 +240,7 @@ class TestSisterModels:
         assert obj.name == "Gloriana Ephemera"
 
     def test_sister_quirk_i18n_name(self):
-        data = '{"name": "Coward", "description": "Can leave the mission at low health"}'
+        data = '{"name": "Coward", "description": "Can leave the mission at low health", "icon": "x.png", "thumb": "y.png"}'
         obj = msgspec.json.decode(data, type=SisterQuirkI18NModel)
         assert obj.name == "Coward"
 
@@ -249,14 +249,14 @@ class TestSisterModels:
 
 class TestRivenModels:
     def test_riven_deserialization(self):
-        data = '''{"id":"r1","slug":"kulstar","gameRef":"/Lotus/W","group":"secondary","rivenType":"pistol","disposition":1.3,"reqMasteryRank":5,"i18n":{"en":{"name":"Kulstar","icon":"x.png","thumb":"y.png","wikiLink":"https://wiki"}}}'''
+        data = '''{"id":"r1","slug":"kulstar","gameRef":"/Lotus/W","group":"secondary","rivenType":"pistol","disposition":1.3,"reqMasteryRank":5,"i18n":{"en":{"name":"Kulstar","icon":"x.png","thumb":"y.png","wikiLink":"https://wiki","subIcon":"s.png"}}}'''
         obj = msgspec.json.decode(data, type=RivenModel)
         assert obj.disposition == 1.3
         assert obj.riven_type == "pistol"
         assert obj.group == "secondary"
 
     def test_riven_attribute(self):
-        data = '''{"id":"a1","slug":"recoil","gameRef":"WeaponRecoil","group":"default","prefix":"Zeti","suffix":"Mag","exclusiveTo":["shotgun","rifle"],"positiveIsNegative":true,"positiveOnly":true,"unit":"percent","i18n":{"en":{"effect":"Weapon Recoil","icon":"x.png","thumb":"y.png"}}}'''
+        data = '''{"id":"a1","slug":"recoil","gameRef":"WeaponRecoil","group":"default","prefix":"Zeti","suffix":"Mag","exclusiveTo":["shotgun","rifle"],"positiveIsNegative":true,"positiveOnly":true,"unit":"percent","i18n":{"en":{"name":"Weapon Recoil","icon":"x.png","thumb":"y.png"}}}'''
         obj = msgspec.json.decode(data, type=RivenAttributeModel)
         assert obj.prefix == "Zeti"
         assert obj.suffix == "Mag"
@@ -288,7 +288,7 @@ class TestAchievementModel:
 
 class TestTransactionModel:
     def test_transaction_with_user(self):
-        data = '''{"id":"txn1","type":"sell","originId":"ord1","platinum":33,"quantity":6,"createdAt":"2025-01-01T00:00:00Z","updatedAt":"2025-01-01T00:00:00Z","item":{"id":"item1","rank":5,"charges":3,"subtype":"crafted","cyanStars":2,"amberStars":1},"user":{"id":"uid1","ingameName":"Player1","reputation":0,"locale":"en","platform":"pc","crossplay":true,"status":"online","activity":{"type":"idle","details":null,"startedAt":null},"lastSeen":"2025-01-01T00:00:00Z"}}'''
+        data = '''{"id":"txn1","type":"sell","originId":"ord1","platinum":33,"quantity":6,"createdAt":"2025-01-01T00:00:00Z","updatedAt":"2025-01-01T00:00:00Z","item":{"id":"item1","rank":5,"charges":3,"subtype":"crafted","cyanStars":2,"amberStars":1},"user":{"id":"uid1","slug":"p1","ingameName":"Player1","reputation":0,"locale":"en","platform":"pc","crossplay":true,"status":"online","activity":{"type":"idle","details":null,"startedAt":null},"lastSeen":"2025-01-01T00:00:00Z"}}'''
         obj = msgspec.json.decode(data, type=TransactionModel)
         assert obj.origin_id == "ord1"
         assert obj.item.rank == 5
@@ -346,11 +346,12 @@ class TestNpcModel:
 
 class TestUserShortModel:
     def test_user_short(self):
-        data = '''{"id":"uid1","ingameName":"Player1","avatar":"avatar.png","reputation":0,"locale":"en","platform":"pc","crossplay":true,"status":"in_game","activity":{"type":"on_mission","details":"The Circuit 55-75","startedAt":"2024-01-17T22:18:19Z"},"lastSeen":"2024-01-17T22:18:19Z"}'''
+        data = '''{"id":"uid1","ingameName":"Player1","slug":"player1","avatar":"avatar.png","reputation":0,"locale":"en","platform":"pc","crossplay":true,"status":"in_game","activity":{"type":"dojo","details":"The Circuit 55-75","startedAt":"2024-01-17T22:18:19Z"},"lastSeen":"2024-01-17T22:18:19Z"}'''
         obj = msgspec.json.decode(data, type=UserShortModel)
         assert obj.ingame_name == "Player1"
+        assert obj.slug == "player1"
         assert obj.crossplay is True
-        assert obj.activity.type == ActivityType.ON_MISSION
+        assert obj.activity.type == ActivityType.IN_DOJO
 
 
 class TestUserModel:
@@ -375,4 +376,5 @@ class TestUserPrivateModel:
         assert Tier.BRONZE == "bronze"
         assert Tier.SILVER == "silver"
         assert Tier.GOLD == "gold"
+        assert Tier.PLATINUM == "platinum"
         assert Tier.DIAMOND == "diamond"

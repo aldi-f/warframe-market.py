@@ -9,7 +9,7 @@ class SisterWeaponI18NModel(msgspec.Struct):
     name: str
     icon: str
     thumb: str
-    wiki_link: str | None = msgspec.field(default=None, name="wikiLink")
+    wiki_link: str = msgspec.field(name="wikiLink")
 
 
 class SisterWeaponModel(msgspec.Struct):
@@ -49,9 +49,9 @@ class SisterQuirkI18NModel(msgspec.Struct):
     """Localization data for a Sister quirk."""
 
     name: str
-    icon: str | None = None
-    thumb: str | None = None
-    description: str | None = None
+    icon: str
+    thumb: str
+    description: str
 
 
 class SisterQuirkModel(msgspec.Struct):

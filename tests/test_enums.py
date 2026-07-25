@@ -14,6 +14,8 @@ class TestLanguage:
         assert Language.ITALIAN.value == "it"
         assert Language.POLISH.value == "pl"
         assert Language.UKRAINIAN.value == "uk"
+        assert Language.TURKISH.value == "tr"
+        assert Language.JAPANESE.value == "ja"
         assert Language.ENGLISH.value == "en"
 
 

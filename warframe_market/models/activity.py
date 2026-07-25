@@ -9,7 +9,7 @@ class ActivityType(str, Enum):
     UNKNOWN = "unknown"
     IDLE = "idle"
     ON_MISSION = "on_mission"
-    IN_DOJO = "in_dojo"
+    IN_DOJO = "dojo"
     IN_ORBITER = "in_orbiter"
     IN_RELAY = "in_relay"
     EMPTY = ""

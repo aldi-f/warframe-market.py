@@ -14,6 +14,8 @@ class Language(Enum):
     ITALIAN = "it"
     POLISH = "pl"
     UKRAINIAN = "uk"
+    TURKISH = "tr"
+    JAPANESE = "ja"
     ENGLISH = "en"
 
 

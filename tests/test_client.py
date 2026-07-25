@@ -8,7 +8,7 @@ class TestClientConstruction:
         assert client.base_url == "https://api.warframe.market/v2"
         assert client.language == Language.ENGLISH
         assert client.platform == Platform.PC
-        assert client.crossplay is True
+        assert client.crossplay is False
 
     def test_custom_construction(self):
         client = WarframeMarketClient(
@@ -38,9 +38,10 @@ class TestClientHeaders:
         headers = client.headers
         assert headers["Language"] == "en"
         assert headers["Platform"] == "pc"
-        assert headers["Crossplay"] == "true"
+        assert headers["Crossplay"] == "false"
         assert headers["Accept"] == "application/json"
         assert headers["Content-Type"] == "application/json"
+        assert headers["User-Agent"] == "warframe-market.py"
 
     def test_custom_headers(self):
         client = WarframeMarketClient(

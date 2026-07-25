@@ -22,6 +22,7 @@ class UserShortModel(msgspec.Struct):
 
     id: str
     ingame_name: str = msgspec.field(name="ingameName")
+    slug: str
     reputation: int
     locale: str
     platform: str

@@ -1,4 +1,6 @@
 import aiohttp
+import asyncio
+import time
 from typing import TypeVar, Type, Optional
 
 from .common import *
@@ -18,12 +20,16 @@ Klass = TypeVar("Klass", bound=BaseRequest)
 
 
 class WarframeMarketClient:
+    _rate_limit_window = 1.0
+    _rate_limit_max = 3
+    _rate_lock = asyncio.Lock()
+    _rate_requests = []
 
     def __init__(self,
                  base_url: str = BASE_URL,
                  language: Language = Language.ENGLISH,
                  platform: Platform = Platform.PC,
-                 crossplay: bool = True):
+                 crossplay: bool = False):
         self.base_url = base_url
         self.response = None
         self.language = language
@@ -37,10 +43,24 @@ class WarframeMarketClient:
             "Content-Type": "application/json",
             "Language": self.language.value,
             "Platform": self.platform.value,
-            "Crossplay": str(self.crossplay).lower()
+            "Crossplay": str(self.crossplay).lower(),
+            "User-Agent": "warframe-market.py"
         }
 
+    async def _enforce_rate_limit(self):
+        async with self._rate_lock:
+            now = time.monotonic()
+            self._rate_requests[:] = [t for t in self._rate_requests if now - t < self._rate_limit_window]
+            if len(self._rate_requests) >= self._rate_limit_max:
+                wait = self._rate_requests[0] + self._rate_limit_window - now
+                if wait > 0:
+                    await asyncio.sleep(wait)
+                    now = time.monotonic()
+                    self._rate_requests[:] = [t for t in self._rate_requests if now - t < self._rate_limit_window]
+            self._rate_requests.append(now)
+
     async def get(self, request_class: Type[Klass], slug: str = "", **kwargs) -> Klass:
+        await self._enforce_rate_limit()
         endpoint = request_class._get_endpoint(slug=slug, **kwargs)
         url = f"{self.base_url}{endpoint}"
         async with aiohttp.ClientSession(headers=self.headers) as session:

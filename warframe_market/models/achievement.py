@@ -4,6 +4,7 @@ from ..common.options import LanguageCode
 
 class AchievementStateModel(msgspec.Struct):
     featured: bool | None = None
+    hidden: bool | None = None
     progress: int | None = None
     completed_at: str | None = msgspec.field(default=None, name="completedAt")
 
@@ -19,6 +20,8 @@ class AchievementModel(msgspec.Struct):
     id: str
     type: str
     slug: str | None = None
+    secret: bool | None = None
+    reputation_bonus: int | None = msgspec.field(default=None, name="reputationBonus")
     goal: int | None = None
     icon: str | None = None
     thumb: str | None = None

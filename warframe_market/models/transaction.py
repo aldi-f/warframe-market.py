@@ -5,7 +5,7 @@ from .user import UserShortModel
 
 
 class _TransactionItemModel(msgspec.Struct):
-    id: str
+    id: str | None = None
     rank: int | None = None
     charges: int | None = None
     subtype: str | None = None

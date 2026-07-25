@@ -42,7 +42,7 @@ MOCK_ITEMS_DATA = '''{"apiVersion": "0.23.0", "data": [
 
 MOCK_ITEM_DATA = '''{"apiVersion": "0.23.0", "data": {"id": "i1", "slug": "item_one", "gameRef": "/Lotus/W", "tags": ["mod"], "tradable": true, "i18n": {"en": {"name": "Item One", "icon": "x.png", "thumb": "y.png"}}}, "error": null}'''
 
-MOCK_ORDERS_DATA = '''{"apiVersion": "0.23.0", "data": [{"id": "o1", "type": "sell", "platinum": 50, "quantity": 1, "visible": true, "createdAt": "2021-01-01T00:00:00Z", "updatedAt": "2021-01-01T00:00:00Z", "itemId": "i1", "user": {"id": "u1", "ingameName": "Player1", "reputation": 0, "locale": "en", "platform": "pc", "crossplay": true, "status": "online", "activity": {"type": "idle", "details": null, "startedAt": null}, "lastSeen": "2021-01-01T00:00:00Z"}}], "error": null}'''
+MOCK_ORDERS_DATA = '''{"apiVersion": "0.23.0", "data": [{"id": "o1", "type": "sell", "platinum": 50, "quantity": 1, "visible": true, "createdAt": "2021-01-01T00:00:00Z", "updatedAt": "2021-01-01T00:00:00Z", "itemId": "i1", "user": {"id": "u1", "slug": "player1", "ingameName": "Player1", "reputation": 0, "locale": "en", "platform": "pc", "crossplay": true, "status": "online", "activity": {"type": "idle", "details": null, "startedAt": null}, "lastSeen": "2021-01-01T00:00:00Z"}}], "error": null}'''
 
 
 @pytest.mark.asyncio

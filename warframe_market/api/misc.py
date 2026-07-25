@@ -25,6 +25,7 @@ class _CollectionsData(msgspec.Struct):
 
 
 class _VersionData(msgspec.Struct):
+    id: str
     apps: _AppsData
     collections: _CollectionsData
     updatedAt: datetime
