@@ -198,6 +198,12 @@ class TestLichModels:
         assert obj.req_mastery_rank == 13
         assert obj.i18n["en"].name == "Kuva Drakgoon"
 
+    def test_lich_weapon_i18n_without_wiki_link(self):
+        # The live v2 API omits wikiLink from lich weapon i18n payloads.
+        data = '''{"id":"w1","slug":"kuva_drakgoon","gameRef":"/Lotus/W","reqMasteryRank":13,"i18n":{"en":{"name":"Kuva Drakgoon","icon":"x.png","thumb":"y.png"}}}'''
+        obj = msgspec.json.decode(data, type=LichWeaponModel)
+        assert obj.i18n["en"].wiki_link is None
+
     def test_lich_ephemera_i18n_name(self):
         data = '{"name": "Vengeful Charge Ephemera", "icon": "x.png", "thumb": "y.png"}'
         obj = msgspec.json.decode(data, type=LichEphemeraI18NModel)
@@ -254,6 +260,13 @@ class TestRivenModels:
         assert obj.disposition == 1.3
         assert obj.riven_type == "pistol"
         assert obj.group == "secondary"
+
+    def test_riven_i18n_without_sub_icon(self):
+        # The live v2 API omits subIcon/wikiLink from riven i18n payloads.
+        data = '''{"id":"r1","slug":"kulstar","gameRef":"/Lotus/W","group":"secondary","rivenType":"pistol","disposition":1.3,"reqMasteryRank":5,"i18n":{"en":{"name":"Kulstar","icon":"x.png","thumb":"y.png"}}}'''
+        obj = msgspec.json.decode(data, type=RivenModel)
+        assert obj.i18n["en"].sub_icon is None
+        assert obj.i18n["en"].wiki_link is None
 
     def test_riven_attribute(self):
         data = '''{"id":"a1","slug":"recoil","gameRef":"WeaponRecoil","group":"default","prefix":"Zeti","suffix":"Mag","exclusiveTo":["shotgun","rifle"],"positiveIsNegative":true,"positiveOnly":true,"unit":"percent","i18n":{"en":{"name":"Weapon Recoil","icon":"x.png","thumb":"y.png"}}}'''

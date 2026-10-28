@@ -13,7 +13,7 @@ class RivenI18N(msgspec.Struct):
     name: str
     icon: str
     thumb: str
-    sub_icon: str = msgspec.field(name="subIcon")
+    sub_icon: str | None = msgspec.field(default=None, name="subIcon")
     wiki_link: str | None = msgspec.field(default=None, name="wikiLink")
 
 

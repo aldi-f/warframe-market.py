@@ -9,7 +9,7 @@ class LichWeaponI18NModel(msgspec.Struct):
     name: str
     icon: str
     thumb: str
-    wiki_link: str = msgspec.field(name="wikiLink")
+    wiki_link: str | None = msgspec.field(default=None, name="wikiLink")
 
 
 class LichWeaponModel(msgspec.Struct):
